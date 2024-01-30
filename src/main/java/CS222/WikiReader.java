@@ -1,25 +1,32 @@
 package CS222;
-
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-
+import java.util.List;
 
 public class WikiReader {
     public static void main(String[] args) throws IOException {
         UserInput userInput = new UserInput();
         URLConnection connection = connectToWikipedia(userInput.WikiName());
         String jsonData = readJsonAsStringFrom(connection);
-        printRawJson(jsonData);
-        retrieveJsonData(jsonData);
+
+        ListCreator listCreator = new ListCreator();
+        List<String> revisionList;
+        revisionList = listCreator.revisionList(jsonData);
+        List<String> findRedirect = listCreator.findRedirect(jsonData);
+
+
+        System.out.println("Date/Time:           User:");
+        for (int i = 0; i <= revisionList.size() - 1; i++){
+            System.out.println(revisionList.get(i));
+        }
     }
 
-    private static URLConnection connectToWikipedia(String userInput) throws IOException {
+    private static URLConnection connectToWikipedia(String wikiName) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
-                URLEncoder.encode(userInput, Charset.defaultCharset()) +
+                URLEncoder.encode(wikiName, Charset.defaultCharset()) +
                 "&rvprop=timestamp|user&rvlimit=14&redirects";
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
@@ -35,10 +42,5 @@ public class WikiReader {
 
     private static void printRawJson(String jsonData) {
         System.out.println(jsonData);
-    }
-    private static void retrieveJsonData (String jsonData){
-        String[] revisionList = jsonData.split(",");
-        revisionList = Arrays.copyOfRange(revisionList, 5, revisionList.length);
-        System.out.println(Arrays.toString(revisionList));
     }
 }
