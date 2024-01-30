@@ -5,6 +5,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+
 
 public class WikiReader {
     public static void main(String[] args) throws IOException {
@@ -12,6 +14,7 @@ public class WikiReader {
         URLConnection connection = connectToWikipedia(userInput.WikiName());
         String jsonData = readJsonAsStringFrom(connection);
         printRawJson(jsonData);
+        retrieveJsonData(jsonData);
     }
 
     private static URLConnection connectToWikipedia(String userInput) throws IOException {
@@ -32,5 +35,10 @@ public class WikiReader {
 
     private static void printRawJson(String jsonData) {
         System.out.println(jsonData);
+    }
+    private static void retrieveJsonData (String jsonData){
+        String[] revisionList = jsonData.split(",");
+        revisionList = Arrays.copyOfRange(revisionList, 5, revisionList.length);
+        System.out.println(Arrays.toString(revisionList));
     }
 }
