@@ -17,11 +17,11 @@ public class WikiReader {
     private static URLConnection connectToWikipedia(String userInput) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(userInput, Charset.defaultCharset()) +
-                "&rvprop=timestamp|user&rvlimit=4&redirects";
+                "&rvprop=timestamp|user&rvlimit=14&redirects";
         URL url = new URL(encodedUrlString);
         URLConnection connection = url.openConnection();
         connection.setRequestProperty("User-Agent",
-                "CS222FirstProject/0.1 (dllargent@bsu.edu)");
+                "CS222FirstProject/0.1 (maxwell.tharp@bsu.edu)");
         connection.connect();
         return connection;
     }
