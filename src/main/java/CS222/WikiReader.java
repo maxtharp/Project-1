@@ -1,12 +1,14 @@
 package CS222;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.Charset;
 
 public class WikiReader {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        if (!connectionStatus()){
+            System.err.print("Could not connect to Wikipedia.");
+        }
+
         Input input = new Input();
         ListCreator listCreator = new ListCreator();
         String userSearch = input.WikiName();
@@ -29,6 +31,11 @@ public class WikiReader {
                 "CS222FirstProject/0.1 (maxwell.tharp@bsu.edu)");
         connection.connect();
         return connection;
+    }
+    private static boolean connectionStatus() throws IOException, InterruptedException {
+        Process process = java.lang.Runtime.getRuntime().exec("ping en.wikipedia.org");
+        int checkTermination = process.waitFor();
+        return checkTermination == 0;
     }
 
     private static String readJsonAsStringFrom(URLConnection connection) throws IOException {

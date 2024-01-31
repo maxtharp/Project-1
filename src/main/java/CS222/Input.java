@@ -1,6 +1,5 @@
 package CS222;
 import com.jayway.jsonpath.JsonPath;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,7 +19,6 @@ public class Input {
 
     public void checkIsValid(String jsonData){
         List<String> hasRevisions = JsonPath.read(jsonData, "$..user");
-        System.out.println(hasRevisions);
         if (hasRevisions.isEmpty()) {
             System.err.println("There is no wikipedia article that matches your search.");
             System.exit(0);
