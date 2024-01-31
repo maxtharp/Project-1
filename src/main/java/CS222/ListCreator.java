@@ -1,12 +1,13 @@
 package CS222;
 import com.jayway.jsonpath.JsonPath;
+import net.minidev.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListCreator {
     private static List<String> dateUserList(String jsonData) {
-        List<String> dates = JsonPath.read(jsonData, "$..timestamp");
-        List<String> users = JsonPath.read(jsonData, "$..user");
+        JSONArray dates = JsonPath.read(jsonData, "$..timestamp");
+        JSONArray users = JsonPath.read(jsonData, "$..user");
         List<String> list = new ArrayList<>();
 
         for (int i = 0; i <= users.size() - 1; i++) {

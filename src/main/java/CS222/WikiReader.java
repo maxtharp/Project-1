@@ -6,7 +6,8 @@ import java.nio.charset.Charset;
 public class WikiReader {
     public static void main(String[] args) throws IOException, InterruptedException {
         if (!connectionStatus()){
-            System.err.print("Could not connect to Wikipedia.");
+           System.err.print("Could not connect to Wikipedia.");
+           System.exit(0);
         }
 
         Input input = new Input();
@@ -33,7 +34,7 @@ public class WikiReader {
         return connection;
     }
     private static boolean connectionStatus() throws IOException, InterruptedException {
-        Process process = java.lang.Runtime.getRuntime().exec("ping en.wikipedia.org");
+        Process process = java.lang.Runtime.getRuntime().exec("ping en.wikipedia.org -n 1");
         int checkTermination = process.waitFor();
         return checkTermination == 0;
     }
