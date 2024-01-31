@@ -1,7 +1,6 @@
 package CS222;
 import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
-import java.util.List;
 import java.util.Scanner;
 
 public class Input {
