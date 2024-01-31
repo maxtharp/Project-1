@@ -4,26 +4,21 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.List;
 
 public class WikiReader {
     public static void main(String[] args) throws IOException {
-        UserInput userInput = new UserInput();
-        URLConnection connection = connectToWikipedia(userInput.WikiName());
+        Input input = new Input();
+        ListCreator listCreator = new ListCreator();
+        String userSearch = input.WikiName();
+        URLConnection connection = connectToWikipedia(userSearch);
         String jsonData = readJsonAsStringFrom(connection);
 
-        ListCreator listCreator = new ListCreator();
-        List<String> revisionList;
-        revisionList = listCreator.revisionList(jsonData);
-        List<String> findRedirect = listCreator.findRedirect(jsonData);
-
-
-        System.out.println("Date/Time:           User:");
-        for (int i = 0; i <= revisionList.size() - 1; i++){
-            System.out.println(revisionList.get(i));
-        }
+        //begin output
+        input.checkIsValid(jsonData);
+        input.checkIsEmpty(userSearch);
+        input.findRedirect(jsonData, userSearch);
+        listCreator.printFormattedList(jsonData);
     }
-
     private static URLConnection connectToWikipedia(String wikiName) throws IOException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(wikiName, Charset.defaultCharset()) +
